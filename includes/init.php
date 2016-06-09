@@ -7,54 +7,55 @@
 // | Author: baijiacms <QQ:1987884799> <http://www.baijiacms.com>
 // +----------------------------------------------------------------------
 
-//如果非安装或正常进入,则跳出
+// 如果非安装或正常进入,则跳出
 (defined('SYSTEM_ACT') or defined('LOCK_TO_INSTALL')) or exit('Access Denied');
-//定义网站根目录
+// 定义网站根目录
 define('WEB_ROOT', str_replace("\\", '/', dirname(dirname(__FILE__))));
-//加载调试文件
+// 加载调试文件
 if (is_file(WEB_ROOT . '/config/debug.php')) {
     require WEB_ROOT . '/config/debug.php';
 }
-//加载自定义文件
+// 加载自定义文件
 if (is_file(WEB_ROOT . '/config/custom.php')) {
     require WEB_ROOT . '/config/custom.php';
 }
-define('SAPP_NAME', '百家CMS微商城V2.7');//商城名称
-define('CORE_VERSION', 20160517);//商城内核版本
-defined('SYSTEM_VERSION') or define('SYSTEM_VERSION', CORE_VERSION);//商城系统版本
-header('Content-type: text/html; charset=UTF-8');//设置编码为UTF-8
-define('SYSTEM_WEBROOT', WEB_ROOT);//系统根目录
-define('TIMESTAMP', time());//时间戳
-define('SYSTEM_IN', true);//系统是否允许进入
-defined('DATA_PROTECT') or define('DATA_PROTECT', false);//数据保护
-defined('CUSTOM_VERSION') or define('CUSTOM_VERSION', false);//自定义版本
-date_default_timezone_set('PRC');//设置时区为东八区
-$document_root = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));//相对路径
-define('SESSION_PREFIX', $_SERVER['SERVER_NAME']);//会话前缀
-define('WEBSITE_ROOT', 'http://' . $_SERVER['HTTP_HOST'] . $document_root . '/');//网站根目录
-define('RESOURCE_ROOT', WEBSITE_ROOT . 'assets/');//资源目录
-define('SYSTEM_ROOT', WEB_ROOT . '/system/');//模块目录
-define('CUSTOM_ROOT', WEB_ROOT . '/custom/');//自定义目录
-define('ADDONS_ROOT', WEB_ROOT . '/addons/');//插件目录
-defined('DEVELOPMENT') or define('DEVELOPMENT', 0);//开发模式
-defined('SQL_DEBUG') or define('SQL_DEBUG', 0);//SQL调试
-define('WEB_SESSION_ACCOUNT', SESSION_PREFIX . "web_account");//会话账户
-define('MAGIC_QUOTES_GPC', (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) || @ini_get('magic_quotes_sybase'));//是否转义特殊字符
-//如果没有回话，则开启一个会话
+define('SAPP_NAME', '百家CMS微商城V2.7'); // 商城名称
+define('CORE_VERSION', 20160517); // 商城内核版本
+defined('SYSTEM_VERSION') or define('SYSTEM_VERSION', CORE_VERSION); // 商城系统版本
+header('Content-type: text/html; charset=UTF-8'); // 设置编码为UTF-8
+define('SYSTEM_WEBROOT', WEB_ROOT); // 系统根目录
+define('TIMESTAMP', time()); // 时间戳
+define('SYSTEM_IN', true); // 系统是否允许进入
+defined('DATA_PROTECT') or define('DATA_PROTECT', false); // 数据保护
+defined('CUSTOM_VERSION') or define('CUSTOM_VERSION', false); // 自定义版本
+date_default_timezone_set('PRC'); // 设置时区为东八区
+$document_root = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')); // 相对路径
+define('SESSION_PREFIX', $_SERVER['SERVER_NAME']); // 会话前缀
+define('WEBSITE_ROOT', 'http://' . $_SERVER['HTTP_HOST'] . $document_root . '/'); // 网站根目录
+define('RESOURCE_ROOT', WEBSITE_ROOT . 'assets/'); // 资源目录
+define('SYSTEM_ROOT', WEB_ROOT . '/system/'); // 模块目录
+define('CUSTOM_ROOT', WEB_ROOT . '/custom/'); // 自定义目录
+define('ADDONS_ROOT', WEB_ROOT . '/addons/'); // 插件目录
+defined('DEVELOPMENT') or define('DEVELOPMENT', 0); // 开发模式
+defined('SQL_DEBUG') or define('SQL_DEBUG', 0); // SQL调试
+define('WEB_SESSION_ACCOUNT', SESSION_PREFIX . "web_account"); // 会话账户
+define('MAGIC_QUOTES_GPC', (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) || @ini_get('magic_quotes_sybase')); // 是否转义特殊字符
+                                                                                                                                    // 如果没有回话，则开启一个会话
 if (! session_id()) {
     session_start();
     header("Cache-control:private");
 }
-//如果是开发模式，则显示错误
+// 如果是开发模式，则显示错误
 if (DEVELOPMENT) {
     ini_set('display_errors', '1');
-    error_reporting(E_ALL ^ E_NOTICE);//报告所有错误
-} else {    
-    error_reporting(0);//禁用错误报告
+    error_reporting(E_ALL ^ E_NOTICE); // 报告所有错误
+} else {
+    error_reporting(0); // 禁用错误报告
 }
 ob_start();
-//如果开启了特殊字符转义
+// 如果开启了特殊字符转义
 if (MAGIC_QUOTES_GPC) {
+
     function stripslashes_deep($value)
     {
         $value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
@@ -65,10 +66,10 @@ if (MAGIC_QUOTES_GPC) {
     $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
     $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 }
-//全局请求变量, 获取 $_GET, $_POST中的变量
+// 全局请求变量, 获取 $_GET, $_POST中的变量
 $_GP = $_CMS = array();
 $_GP = array_merge($_GET, $_POST, $_GP);
-//特殊处理转义字符
+// 特殊处理转义字符
 function irequestsplite($var)
 {
     if (is_array($var)) {
@@ -81,7 +82,7 @@ function irequestsplite($var)
     return $var;
 }
 $_GP = irequestsplite($_GP);
-//模块名称
+// 模块名称
 $modulename = $_GP['name'];
 if (empty($modulename)) {
     if (empty($mname)) {
@@ -94,7 +95,7 @@ if (empty($modulename)) {
         $modulename = $mname;
     }
 }
-//动作
+// 动作
 if (empty($_GP['do'])) {
     if (empty($do)) {
         $_GP['do'] = 'index';
@@ -102,7 +103,7 @@ if (empty($_GP['do'])) {
         $_GP['do'] = $do;
     }
 }
-//数据库操作对象PDO
+// 数据库操作对象PDO
 $pdo = $_CMS['pdo'] = null;
 $bjconfigfile = WEB_ROOT . "/config/config.php";
 $BJCMS_CONFIG = array();
@@ -126,11 +127,12 @@ if (empty($bjconfig['db']['database'])) {
     $bjconfig['db']['database'] = '';
 }
 $bjconfig['db']['charset'] = 'utf8';
-$_CMS['config'] = $bjconfig;//数据库连接参数
-$_CMS['module'] = $modulename;//模块名称
-$_CMS[WEB_SESSION_ACCOUNT] = $_SESSION[WEB_SESSION_ACCOUNT];//当前会话
-
-//创建PDO对象
+$_CMS['config'] = $bjconfig; // 数据库连接参数
+$_CMS['module'] = $modulename; // 模块名称
+$_CMS[WEB_SESSION_ACCOUNT] = $_SESSION[WEB_SESSION_ACCOUNT];
+ // 当前会话
+                                                             
+// 创建PDO对象
 function mysqldb()
 {
     global $_CMS;
@@ -141,27 +143,27 @@ function mysqldb()
     $_CMS['config']['db'] = "";
     return $db;
 }
-//ExecuteQuery
+// ExecuteQuery
 function mysqld_query($sql, $params = array())
 {
     return mysqldb()->query($sql, $params);
 }
-//FirstOrDefault
+// FirstOrDefault
 function mysqld_select($sql, $params = array())
 {
     return mysqldb()->fetch($sql, $params);
 }
-//ExecuteScalar
+// ExecuteScalar
 function mysqld_selectcolumn($sql, $params = array(), $column = 0)
 {
     return mysqldb()->fetchcolumn($sql, $params, $column);
 }
-//Select
+// Select
 function mysqld_selectall($sql, $params = array(), $keyfield = '')
 {
     return mysqldb()->fetchall($sql, $params, $keyfield);
 }
-//Update
+// Update
 function mysqld_update($table, $data = array(), $params = array(), $orwith = 'AND')
 {
     if (DATA_PROTECT && empty($params)) {
@@ -172,12 +174,12 @@ function mysqld_update($table, $data = array(), $params = array(), $orwith = 'AN
     }
     return mysqldb()->update($table, $data, $params, $orwith);
 }
-//Insert
+// Insert
 function mysqld_insert($table, $data = array(), $es = FALSE)
 {
     return mysqldb()->insert($table, $data, $es);
 }
-//Delete
+// Delete
 function mysqld_delete($table, $params = array(), $orwith = 'AND')
 {
     if (DATA_PROTECT && empty($params)) {
@@ -188,33 +190,36 @@ function mysqld_delete($table, $params = array(), $orwith = 'AND')
     }
     return mysqldb()->delete($table, $params, $orwith);
 }
-//Select @@identity
+// Select @@identity
 function mysqld_insertid()
 {
     return mysqldb()->insertid();
 }
-//Execute muti sql statements
+// Execute muti sql statements
 function mysqld_batch($sql)
 {
     return mysqldb()->excute($sql);
 }
-//Check Column Exists 
+// Check Column Exists
 function mysqld_fieldexists($tablename, $fieldname = '')
 {
     return mysqldb()->fieldexists($tablename, $fieldname);
 }
-//Check Index Exists
+// Check Index Exists
 function mysqld_indexexists($tablename, $indexname = '')
 {
     return mysqldb()->indexexists($tablename, $indexname);
 }
-//数据库操作工具类
+// 数据库操作工具类
 class PdoUtil
 {
-    private $dbo;//数据库操作对象
-    private $cfg;//数据库连接参数
-    
-    //构造函数
+
+    private $dbo;
+ // 数据库操作对象
+    private $cfg;
+ // 数据库连接参数
+                  
+    // 构造函数
     public function __construct($cfg)
     {
         global $_CMS;
@@ -227,7 +232,7 @@ class PdoUtil
         } catch (PDOException $e) {
             message("数据库连接失败，请检查数据库配置:/config/config.php");
         }
-        //设置SQL编码
+        // 设置SQL编码
         $sql = "SET NAMES '{$cfg['charset']}';";
         $this->dbo->exec($sql);
         $this->dbo->exec("SET sql_mode='';");
@@ -236,10 +241,10 @@ class PdoUtil
             $this->debug($this->dbo->errorInfo());
         }
     }
-    //执行数据库操作
+    // 执行数据库操作
     public function query($sql, $params = array())
     {
-        //无参数则直接执行SQL
+        // 无参数则直接执行SQL
         if (empty($params)) {
             $result = $this->dbo->exec($sql);
             if (SQL_DEBUG) {
@@ -247,9 +252,9 @@ class PdoUtil
             }
             return $result;
         }
-        //创建PDOCommand对象
+        // 创建PDOCommand对象
         $statement = $this->dbo->prepare($sql);
-        //准备参数
+        // 准备参数
         $result = $statement->execute($params);
         if (SQL_DEBUG) {
             $this->debug($statement->errorInfo());
@@ -260,7 +265,7 @@ class PdoUtil
             return $statement->rowCount();
         }
     }
-    //获取第一个行第一列的内容
+    // 获取第一个行第一列的内容
     public function fetchcolumn($sql, $params = array(), $column = 0)
     {
         $statement = $this->dbo->prepare($sql);
@@ -274,7 +279,7 @@ class PdoUtil
             return $statement->fetchColumn($column);
         }
     }
-    //获取第一行记录
+    // 获取第一行记录
     public function fetch($sql, $params = array())
     {
         $statement = $this->dbo->prepare($sql);
@@ -288,7 +293,7 @@ class PdoUtil
             return $statement->fetch(pdo::FETCH_ASSOC);
         }
     }
-    //获取全部记录
+    // 获取全部记录
     public function fetchall($sql, $params = array(), $keyfield = '')
     {
         $statement = $this->dbo->prepare($sql);
@@ -317,7 +322,7 @@ class PdoUtil
             }
         }
     }
-    //更新
+    // 更新
     public function update($table, $data = array(), $params = array(), $orwith = 'AND')
     {
         $fields = $this->splitForSQL($data, ',');
@@ -327,18 +332,18 @@ class PdoUtil
         $sql .= $condition['fields'] ? ' WHERE ' . $condition['fields'] : '';
         return $this->query($sql, $params);
     }
-    //新增
+    // 新增
     public function insert($table, $data = array(), $es = FALSE)
     {
         $condition = $this->splitForSQL($data, ',');
         return $this->query("INSERT INTO " . $this->table($table) . " SET {$condition['fields']}", $condition['params']);
     }
-    //获取自增编号
+    // 获取自增编号
     public function insertid()
     {
         return $this->dbo->lastInsertId();
     }
-    //删除
+    // 删除
     public function delete($table, $params = array(), $orwith = 'AND')
     {
         $condition = $this->splitForSQL($params, $orwith);
@@ -346,7 +351,7 @@ class PdoUtil
         $sql .= $condition['fields'] ? ' WHERE ' . $condition['fields'] : '';
         return $this->query($sql, $condition['params']);
     }
-    //分割字符串
+    // 分割字符串
     private function splitForSQL($params, $orwith = ',')
     {
         $result = array(
@@ -375,7 +380,7 @@ class PdoUtil
         }
         return $result;
     }
-    //执行SQL语句
+    // 执行SQL语句
     public function excute($sql, $stuff = 'baijiacms_')
     {
         if (! isset($sql) || empty($sql))
@@ -401,13 +406,13 @@ class PdoUtil
             }
         }
     }
-    //列是否存在
+    // 列是否存在
     public function fieldexists($tablename, $fieldname)
     {
         $isexists = $this->fetch("DESCRIBE " . $this->table($tablename) . " `{$fieldname}`");
         return ! empty($isexists) ? true : false;
     }
-    //索引是否存在
+    // 索引是否存在
     public function indexexists($tablename, $indexname)
     {
         if (! empty($indexname)) {
@@ -422,12 +427,12 @@ class PdoUtil
         }
         return false;
     }
-    //表名
+    // 表名
     public function table($table)
     {
         return "`baijiacms_{$table}`";
     }
-    //调试
+    // 调试
     public function debug($errors)
     {
         if (! empty($errors[1]) && ! empty($errors[1]) && $errors[1] != '00000') {
@@ -438,7 +443,7 @@ class PdoUtil
     }
 }
 
-//消息页面
+// 消息页面
 function message($msg, $redirect = '', $type = '', $successAutoNext = true)
 {
     global $_CMS;
@@ -471,12 +476,12 @@ function message($msg, $redirect = '', $type = '', $successAutoNext = true)
     include page('message');
     exit();
 }
-
+// 表名
 function table($table)
 {
     return "`baijiacms_{$table}`";
 }
-
+// 提交校验操作
 function checksubmit($action = 'submit')
 {
     global $_CMS, $_GP;
@@ -488,7 +493,7 @@ function checksubmit($action = 'submit')
     }
     return FALSE;
 }
-
+// 会话超时校验
 function checklogin()
 {
     global $_CMS;
@@ -500,7 +505,7 @@ function checklogin()
     }
     return true;
 }
-
+// 权限校验
 function hasrule($modname, $moddo)
 {
     if (checkrule($modname, $moddo) == false) {
@@ -509,26 +514,29 @@ function hasrule($modname, $moddo)
     }
     return true;
 }
-
+// 权限校验
 function checkrule($modname, $moddo)
 {
     global $_CMS;
     
+    // 非首页、通用、公共等模块
     if ($modname != "index" && $modname != "common" && $modname != "public") {
-        
+        // 非模块或非插件、更新等操作
         if ($modname != "modules" || ($modname == "modules" && ($moddo != "addons_update" && $moddo != "checkupdate" && $moddo != "update"))) {
-            
             $account = $_CMS[WEB_SESSION_ACCOUNT];
+            // 管理员账号
             if (! empty($account['is_admin'])) {
                 return true;
             }
-            
+            // 获取当前用户信息
             $user = mysqld_select("select * from " . table('user') . " where id=:uid", array(
                 ':uid' => $account['id']
             ));
+            // 获取用户组权限
             $user_group_rule = mysqld_selectall('SELECT * FROM ' . table('user_group_rule') . " WHERE  gid=:gid", array(
                 ':gid' => $user['groupid']
             ));
+            // 获取用户权限
             $user_rule_rule = mysqld_selectall('SELECT * FROM ' . table('user_rule') . " WHERE  uid=:uid", array(
                 ':uid' => $account['id']
             ));
@@ -540,7 +548,6 @@ function checkrule($modname, $moddo)
             }
             
             foreach ($user_rule_rule as $rule) {
-                
                 if (($modname == $rule['modname'] && $rule['moddo'] == "ALL") || ($modname == $rule['modname'] && $moddo == "ALL") || $modname == $rule['modname'] && $moddo == $rule['moddo']) {
                     return true;
                 }
@@ -551,7 +558,7 @@ function checkrule($modname, $moddo)
     }
     return true;
 }
-
+//拼接URL
 function create_url($module, $params = array())
 {
     global $_CMS;
@@ -561,7 +568,7 @@ function create_url($module, $params = array())
     $queryString = http_build_query($params, '', '&');
     return 'index.php?mod=' . $module . (empty($do) ? '' : '&do=' . $do) . '&' . $queryString;
 }
-
+//拼接前台URL
 function web_url($do, $querystring = array())
 {
     global $_CMS;
@@ -571,7 +578,7 @@ function web_url($do, $querystring = array())
     $querystring['do'] = $do;
     return create_url('site', $querystring);
 }
-
+//拼接移动URL
 function mobile_url($do, $querystring = array())
 {
     global $_CMS;
@@ -581,7 +588,7 @@ function mobile_url($do, $querystring = array())
     $querystring['do'] = $do;
     return create_url('mobile', $querystring);
 }
-
+//刷新页面
 function refresh()
 {
     global $_GP, $_CMS;
@@ -603,12 +610,11 @@ function refresh()
     }
     return strip_tags($_CMS['refresh']);
 }
-
+//页面
 function page($filename)
 {
     global $_CMS;
-    if (SYSTEM_ACT == 'mobile') {
-        
+    if (SYSTEM_ACT == 'mobile') {        
         if (CUSTOM_VERSION == true && is_file(CUSTOM_ROOT . $_CMS['module'] . "/template/mobile/{$filename}.php")) {
             $source = CUSTOM_ROOT . $_CMS['module'] . "/template/mobile/{$filename}.php";
         } else {
@@ -630,39 +636,38 @@ function page($filename)
     }
     return $source;
 }
-
+//主题页面
 function themePage($filename)
 {
     global $_CMS;
     $settings = globaSetting();
-    $theme = $settings['theme'];
-    
-    $cachefile = WEB_ROOT . '/cache/' . SESSION_PREFIX . '/' . $theme . '/' . $filename . '.php';
-    $template = SYSTEM_WEBROOT . '/themes/' . $theme . '/' . $filename . '.html';
+    $theme = $settings['theme'];//当前主题    
+    $cachefile = WEB_ROOT . '/cache/' . SESSION_PREFIX . '/' . $theme . '/' . $filename . '.php';//缓存页面
+    $template = SYSTEM_WEBROOT . '/themes/' . $theme . '/' . $filename . '.html';//模板页面
     if (! is_file($template)) {
         $template = SYSTEM_WEBROOT . '/themes/default/' . $filename . '.html';
         $cachefile = WEB_ROOT . '/cache/' . SESSION_PREFIX . '/default/' . $filename . '.php';
         $theme = 'default';
     }
-    
+    //如果缓存页面不存在，则读取模板文件
     if (! is_file($cachefile) || DEVELOPMENT) {
-        $str = file_get_contents($template);
-        
-        $path = dirname($cachefile);
+        $str = file_get_contents($template);//读取模板文件        
+        $path = dirname($cachefile);//缓存目录
         if (! is_dir($path)) {
             mkdirs($path);
         }
+        //替换资源文件路径
         $content = preg_replace('/__RESOURCE__/', WEBSITE_ROOT . 'themes/' . $theme . '/__RESOURCE__', $str);
-        
+        //替换PHP语法符号
         $content = preg_replace('/<!--@php\s+(.+?)@-->/', '<?php $1?>', $content);
+        //生成缓存文件
         file_put_contents($cachefile, $content);
         return $cachefile;
-    } else {
-        
+    } else {        
         return $cachefile;
     }
 }
-
+//清理缓存
 function clear_theme_cache($path = '', $isdir = false)
 {
     if ($isdir == false) {
@@ -685,7 +690,7 @@ function clear_theme_cache($path = '', $isdir = false)
         @unlink($path);
     }
 }
-
+//刷新配置
 function refreshSetting($arrays)
 {
     if (is_array($arrays)) {
@@ -718,7 +723,7 @@ function refreshSetting($arrays)
         $_CMS['store_globa_setting'] = globaPrivateSetting();
     }
 }
-
+//全局参数配置
 function globaPrivateSetting()
 {
     $config = array();
@@ -745,7 +750,7 @@ function globaPrivateSetting()
         return unserialize($system_config_cache['value']);
     }
 }
-
+//全局参数
 function globaSetting($conditions = array())
 {
     global $_CMS;
@@ -754,7 +759,7 @@ function globaSetting($conditions = array())
     }
     return $_CMS['store_globa_setting'];
 }
-
+//获取客户IP
 function getClientIP()
 {
     static $ip = '';
@@ -773,7 +778,7 @@ function getClientIP()
     }
     return $ip;
 }
-
+//移动端请求验证
 function is_mobile_request()
 {
     $_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';
@@ -897,6 +902,7 @@ define('MOBILE_ALIPAY_OPENID', SESSION_PREFIX . "mobile_alipay_openid");
 define('MOBILE_QQ_OPENID', SESSION_PREFIX . "mobile_qq_openid");
 define('MOBILE_QQ_CALLBACK', SESSION_PREFIX . "mobile_qq_callback");
 
+//保存会员会话
 function save_member_login($mobile = '', $openid = '')
 {
     if (! empty($mobile)) {
@@ -922,7 +928,7 @@ function save_member_login($mobile = '', $openid = '')
     }
     return '';
 }
-
+//刷新会员信息
 function refresh_account($openid)
 {
     $member = member_get($openid);
@@ -930,7 +936,7 @@ function refresh_account($openid)
         $_SESSION[MOBILE_ACCOUNT] = $member;
     }
 }
-
+//QQ登录
 function member_login_qq($qq_openid)
 {
     if (! empty($qq_openid)) {
@@ -954,7 +960,7 @@ function member_login_qq($qq_openid)
         }
     }
 }
-
+//支付宝登陆
 function member_login_alipay($alipay_openid)
 {
     if (! empty($weixin_openid)) {
@@ -971,7 +977,7 @@ function member_login_alipay($alipay_openid)
         }
     }
 }
-
+//微信登陆
 function member_login_weixin($weixin_openid)
 {
     global $_GP, $_CMS;
@@ -992,6 +998,7 @@ function member_login_weixin($weixin_openid)
                 $settings = globaSetting();
                 
                 if (! empty($settings['weixin_autoreg'])) {
+                    //生成会员ID
                     $openid = date("YmdH", time()) . rand(100, 999);
                     $hasaccount = true;
                     while ($hasaccount) {
@@ -1004,23 +1011,19 @@ function member_login_weixin($weixin_openid)
                             $hasaccount = false;
                         }
                     }
-                    
-                    $shareinfo = $_GP['shareid'];
-                    
-                    if ($shareinfo != $openid && ! empty($shareinfo) && (! empty($_SESSION[MOBILE_WEIXIN_OPENID]) || ! empty($_SESSION[MOBILE_ALIPAY_OPENID]))) {
-                        
+                    //分享关注
+                    $shareinfo = $_GP['shareid'];                    
+                    if ($shareinfo != $openid && ! empty($shareinfo) && (! empty($_SESSION[MOBILE_WEIXIN_OPENID]) || ! empty($_SESSION[MOBILE_ALIPAY_OPENID]))) {                        
                         $share_member = mysqld_select("SELECT * FROM " . table('member') . " WHERE openid = :openid", array(
                             ':openid' => $shareinfo
                         ));
-                        if (! empty($share_member['openid'])) {
-                            
-                            if ($_CMS['addons_fenxiao']) {
-                                
+                        if (! empty($share_member['openid'])) {                            
+                            if ($_CMS['addons_fenxiao']) {                                
                                 fenxiao_base_shareinfo($openid, $shareinfo);
                             }
                         }
                     }
-                    
+                    //新增会员信息
                     $data = array(
                         'realname' => $weixin_wxfans['nickname'],
                         'mobile' => '',
@@ -1033,22 +1036,24 @@ function member_login_weixin($weixin_openid)
                         'openid' => $openid
                     );
                     mysqld_insert('member', $data);
-                    
+                    //修改微信的关联ID
                     mysqld_update('weixin_wxfans', array(
                         'openid' => $openid
                     ), array(
                         'weixin_openid' => $weixin_openid
                     ));
+                    //分销
                     if ($_CMS['addons_fenxiao']) {
                         fenxiao_reg_member($openid);
                     }
+                    //重新登陆
                     member_login_weixin($weixin_openid);
                 }
             }
         }
     }
 }
-
+//会员登陆
 function member_login($mobile, $pwd)
 {
     $member = mysqld_select("SELECT * FROM " . table('member') . " where mobile=:mobile limit 1", array(
@@ -1066,7 +1071,7 @@ function member_login($mobile, $pwd)
     }
     return '';
 }
-
+//退出登录
 function member_logout()
 {
     unset($_SESSION["mobile_login_fromurl"]);
@@ -1120,12 +1125,12 @@ function member_logout()
     )));
     exit();
 }
-
+//生成临时会话编号
 function create_sessionid()
 {
     return '_t' . date("mdHis") . rand(10000000, 99999999);
 }
-
+//处理登录
 function integration_session_account($loginid, $oldsessionid)
 {
     $member = mysqld_select("SELECT * FROM " . table('member') . " WHERE openid = :openid ", array(
@@ -1148,8 +1153,7 @@ function integration_session_account($loginid, $oldsessionid)
             ':goodsid' => $cartitem['goodsid'],
             ':optionid' => $cartitem['optionid']
         ));
-        if (empty($row['id'])) {
-            
+        if (empty($row['id'])) {            
             mysqld_update('shop_cart', array(
                 'session_id' => $loginid
             ), array(
@@ -1266,7 +1270,7 @@ function integration_session_account($loginid, $oldsessionid)
     
     // unset($_SESSION[MOBILE_SESSION_ACCOUNT]);
 }
-
+//判断是否登录
 function is_login_account()
 {
     if (! empty($_SESSION[MOBILE_ACCOUNT])) {
@@ -1274,22 +1278,22 @@ function is_login_account()
     }
     return false;
 }
-
+//保存跳转页面
 function tosaveloginfrom()
 {
     $_SESSION["mobile_login_fromurl"] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 }
-
+//清除跳转页面
 function clearloginfrom()
 {
     $_SESSION["mobile_login_fromurl"] = "";
 }
-
+//获取登录前跳转页面
 function getloginfrom($param = "")
 {
     return $_SESSION["mobile_login_fromurl"] . $param;
 }
-
+//获取会员账户
 function get_member_account($useAccount = true, $mustlogin = false)
 {
     if (empty($_SESSION[MOBILE_ACCOUNT]) && $mustlogin) {
@@ -1310,7 +1314,7 @@ function get_member_account($useAccount = true, $mustlogin = false)
     
     return get_session_account($useAccount);
 }
-
+//获取会话账号
 function get_session_account($useAccount = true)
 {
     $sessionAccount = "";
@@ -1342,7 +1346,7 @@ function get_session_account($useAccount = true)
     }
     return $sessionAccount;
 }
-
+//返回登陆前跳转页面
 function to_member_loginfromurl()
 {
     if (empty($_SESSION["mobile_login_fromurl"])) {
@@ -1356,7 +1360,7 @@ function to_member_loginfromurl()
         return $fromurl;
     }
 }
-
+//获取会员信息
 function member_get($openid)
 {
     $member = mysqld_select("SELECT * FROM " . table('member') . " where openid=:openid ", array(
@@ -1365,7 +1369,7 @@ function member_get($openid)
     
     return $member;
 }
-
+//会员余额记录
 function member_credit($openid, $fee, $type, $remark)
 {
     $member = member_get($openid);
@@ -1413,7 +1417,7 @@ function member_credit($openid, $fee, $type, $remark)
     }
     return false;
 }
-
+//会员积分操作
 function member_gold($openid, $fee, $type, $remark)
 {
     $member = member_get($openid);
@@ -1477,7 +1481,7 @@ function get_html($str)
     $html->clear();
     return $content;
 }
-
+//随机数
 function random($length, $nc = 0)
 {
     $random = rand(1, 9);
@@ -1486,7 +1490,7 @@ function random($length, $nc = 0)
     }
     return $random;
 }
-
+//错误
 function error($code, $msg = '')
 {
     return array(
@@ -1494,7 +1498,7 @@ function error($code, $msg = '')
         'message' => $msg
     );
 }
-
+//错误判断
 function is_error($data)
 {
     if (empty($data) || ! is_array($data) || ! array_key_exists('errno', $data) || (array_key_exists('errno', $data) && $data['errno'] == 0)) {
@@ -1503,7 +1507,7 @@ function is_error($data)
         return true;
     }
 }
-
+//分页
 function pagination($total, $pindex, $psize = 15)
 {
     global $_CMS;
@@ -1553,7 +1557,7 @@ function pagination($total, $pindex, $psize = 15)
     $html .= '</ul></div>';
     return $html;
 }
-
+//删除附件文件
 function file_delete($file)
 {
     if (empty($file)) {
@@ -1564,7 +1568,7 @@ function file_delete($file)
     }
     return TRUE;
 }
-
+//移动文件
 function file_move($filename, $dest)
 {
     mkdirs(dirname($dest));
@@ -1575,7 +1579,7 @@ function file_move($filename, $dest)
     }
     return is_file($dest);
 }
-
+//创建目录
 function mkdirs($path)
 {
     if (! is_dir($path)) {
@@ -1584,7 +1588,7 @@ function mkdirs($path)
     }
     return is_dir($path);
 }
-
+//上传配置文件
 function system_config_file_upload($file, $newname, $folder)
 {
     if (empty($file)) {
@@ -1603,7 +1607,7 @@ function system_config_file_upload($file, $newname, $folder)
     
     return $result;
 }
-
+//上传文件
 function file_upload($file, $type = 'image')
 {
     if (empty($file)) {
@@ -1658,7 +1662,7 @@ function file_upload($file, $type = 'image')
     $result['success'] = true;
     return $result;
 }
-
+//GET请求
 function http_get($url)
 {
     $ch = curl_init();
@@ -1672,7 +1676,7 @@ function http_get($url)
     curl_close($ch);
     return $data;
 }
-
+//POST请求
 function http_post($url, $post_data)
 {
     $ch = curl_init();
