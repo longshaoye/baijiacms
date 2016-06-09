@@ -1691,7 +1691,7 @@ function http_post($url, $post_data)
     curl_close($ch);
     return $data;
 }
-
+//加载第三方登陆
 if (is_file(WEB_ROOT . '/config/config.php') && is_file(WEB_ROOT . '/config/install.link')) {
     require (WEB_ROOT . '/system/common/lib/lib.php');
 }
