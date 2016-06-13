@@ -40,8 +40,9 @@ defined('DEVELOPMENT') or define('DEVELOPMENT', 0); // 开发模式
 defined('SQL_DEBUG') or define('SQL_DEBUG', 0); // SQL调试
 define('WEB_SESSION_ACCOUNT', SESSION_PREFIX . "web_account"); // 会话账户
 define('MAGIC_QUOTES_GPC', (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) || @ini_get('magic_quotes_sybase')); // 是否转义特殊字符
-                                                                                                                                    // 如果没有回话，则开启一个会话
+
 if (! session_id()) {
+    // 如果没有回话，则开启一个会话
     session_start();
     header("Cache-control:private");
 }

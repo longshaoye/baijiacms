@@ -8,24 +8,30 @@
 // +----------------------------------------------------------------------
 defined('SYSTEM_IN') or exit('Access Denied');
 
+/*
+ * 短信码检验
+ * @param string $tell  
+ * @param string $smstype
+ * 
+ * @return true/false
+ */
 function system_sms_validate($tell, $smstype, $vcode)
 {
     $sms_cache = mysqld_select("SELECT * FROM " . table('sms_cache') . 'where tell=:tell and smstype=:smstype', array(
         ":tell" => $tell,
         ":smstype" => $smstype
     ));
-    $settings = globaSetting();
-    
-    if (! empty($sms_cache['vcode'])) {
-        
-        if ($vcode == $sms_cache['vcode']) {
-            
+    $settings = globaSetting();    
+    if (! empty($sms_cache['vcode'])) {        
+        if ($vcode == $sms_cache['vcode']) {            
             return true;
         }
     }
     return false;
 }
-
+/*
+ * 发送短信验证码
+ * */
 function system_sms_curlsend($tell, $smstype, $sms_template_code, $sms_free_sign_name, $vcode)
 {
     $settings = globaSetting();

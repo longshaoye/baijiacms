@@ -1,3 +1,3 @@
 <?php
-			$help=$cfg['help'];
-		   include themePage('help');
+$help = $cfg['help'];
+include themePage('help');

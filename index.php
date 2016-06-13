@@ -6,7 +6,7 @@ if (! file_exists(str_replace("\\", '/', dirname(__FILE__)) . '/config/install.l
         exit();
     }
 }
-
+//定义SYSTEM_ACT及变量$mod与$do
 if (defined('SYSTEM_ACT') && SYSTEM_ACT == 'mobile') {
     $mod = 'mobile';
 } else {
@@ -22,6 +22,7 @@ if (empty($_REQUEST['do'])) {
 } else {    
     $do = $_REQUEST['do'];
 }
+//开启缓存,组织输出
 if (! empty($do)) {
     ob_start();
     $CLASS_LOADER = "driver";
