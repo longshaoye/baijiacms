@@ -19,8 +19,7 @@ if ($mod == 'mobile') {
 }
 if (empty($_REQUEST['do'])) {
     $do = 'shopindex';
-} else {
-    
+} else {    
     $do = $_REQUEST['do'];
 }
 if (! empty($do)) {
