@@ -1,19 +1,19 @@
 <?php
 defined('SYSTEM_IN') or exit('Access Denied');
 
-//会员等级
+// 会员等级
 require WEB_ROOT . '/system/member/lib/rank.php';
 
 class shopwapAddons extends BjSystemModule
 {
-    //PC首页
+    // PC首页
     public function do_index_pc()
     {
         $settings = globaSetting();
         $qrurl = $this->create_qrcode(WEBSITE_ROOT . mobile_url('shopindex'));
         include page('index_pc');
     }
-    //生成二维码
+    // 生成二维码
     function create_qrcode($homeurl)
     {
         $att_target_file = 'shopindex_qrcode.png';
@@ -34,62 +34,62 @@ class shopwapAddons extends BjSystemModule
         }
         return WEBSITE_ROOT . $qr_dir . $att_target_file;
     }
-    //限时抢购
+    // 限时抢购
     public function do_time_goodlist()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //修改密码
+    // 修改密码
     public function do_repwd()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //解绑手机
+    // 解绑手机
     public function do_logoutmobile()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //提现
+    // 提现
     public function do_outchargegold()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //Json获取订单信息
+    // Json获取订单信息
     public function do_getgoldorder()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //第三方登陆
+    // 第三方登陆
     public function do_third_loginqq()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //我的订单
+    // 我的订单
     public function do_myorder()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //收货地址
+    // 收货地址
     public function do_address()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //修改密码
+    // 修改密码
     public function do_member_pwd()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //修改资料
+    // 修改资料
     public function do_member()
     {
         $this->__mobile(__FUNCTION__);
     }
-    //帮助页面
+    // 帮助页面
     public function do_help()
     {
         $this->__mobile(__FUNCTION__);
     }
-    
+
     public function do_rechargegold()
     {
         $this->__mobile(__FUNCTION__);

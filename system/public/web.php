@@ -3,7 +3,7 @@ defined('SYSTEM_IN') or exit('Access Denied');
 
 class publicAddons extends BjSystemModule
 {
-    
+
     function do_install()
     {
         $this->__web(__FUNCTION__);

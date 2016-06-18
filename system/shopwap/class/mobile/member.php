@@ -4,7 +4,7 @@ $openid = $member['openid'];
 $memberinfo = member_get($openid);
 
 if (is_use_weixin()) {
-    $weixinthirdlogin = mysqld_select("SELECT * FROM " . table('thirdlogin') . " WHERE enabled=1 and `code`='weixin'");    
+    $weixinthirdlogin = mysqld_select("SELECT * FROM " . table('thirdlogin') . " WHERE enabled=1 and `code`='weixin'");
     if (! empty($weixinthirdlogin) && ! empty($weixinthirdlogin['id'])) {
         $isweixin = true;
         $weixin_openid = get_weixin_openid();
@@ -13,13 +13,13 @@ if (is_use_weixin()) {
 if (checksubmit("submit")) {
     $member = mysqld_select("SELECT * FROM " . table('member') . " where openid=:openid ", array(
         ':openid' => $openid
-    ));    
+    ));
     $member1 = mysqld_select("SELECT * FROM " . table('member') . " where mobile=:mobile ", array(
         ':mobile' => $_GP['mobile']
     ));
     if (! empty($member1['openid']) && $member1['openid'] != $member['openid']) {
         message($_GP['mobile'] . "已被注册。");
-    }    
+    }
     $outgoldinfo = array(
         'outgold_paytype' => $_GP['outgold_paytype'],
         'outgold_bankname' => $_GP['outgold_bankname'],

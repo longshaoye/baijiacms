@@ -5,7 +5,7 @@ $memberinfo = member_get($openid);
 if (empty($memberinfo['pwd'])) {
     $hiddenoldpwd = true;
 }
-if (checksubmit("submit")) {    
+if (checksubmit("submit")) {
     if (! empty($memberinfo['pwd'])) {
         if (empty($_GP['pwd'])) {
             message("请输入密码！");
@@ -13,13 +13,13 @@ if (checksubmit("submit")) {
         if ($memberinfo['pwd'] != md5($_GP['oldpwd'])) {
             message("原始密码错误！");
         }
-    }    
+    }
     $data = array(
         'pwd' => md5($_GP['pwd'])
     );
     if (empty($_GP['mobile'])) {
         message("请输入手机号！");
-    }    
+    }
     if (! empty($_GP['mobile'])) {
         if (empty($memberinfo['mobile']) || (! empty($memberinfo['mobile']) && $memberinfo['mobile'] != $_GP['mobile'])) {
             $ckmember = mysqld_select("SELECT * FROM " . table('member') . " where mobile=:mobile ", array(
@@ -30,7 +30,7 @@ if (checksubmit("submit")) {
             }
             $data['mobile'] = $_GP['mobile'];
         }
-    }    
+    }
     mysqld_update('member', $data, array(
         'openid' => $openid
     ));

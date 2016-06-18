@@ -6,7 +6,7 @@ $from = $_GP['from'];
 $returnurl = urldecode($_GP['returnurl']);
 $operation = $_GP['op'];
 
-if ($operation == 'post') {//新增收货地址
+if ($operation == 'post') { // 新增收货地址
     $id = intval($_GP['id']);
     $data = array(
         'openid' => $openid,
@@ -34,14 +34,14 @@ if ($operation == 'post') {//新增收货地址
         ));
         $data['isdefault'] = 1;
         mysqld_insert('shop_address', $data);
-        $id = mysqld_insertid();        
+        $id = mysqld_insertid();
         if (! empty($id)) {
             message($id, '', 'ajax');
         } else {
             message(0, '', 'ajax');
         }
     }
-} elseif ($operation == 'default') {//设置默认收货地址
+} elseif ($operation == 'default') { // 设置默认收货地址
     $id = intval($_GP['id']);
     mysqld_update('shop_address', array(
         'isdefault' => 0
@@ -54,16 +54,16 @@ if ($operation == 'post') {//新增收货地址
         'id' => $id
     ));
     message(1, '', 'ajax');
-} elseif ($operation == 'detail') {//查看收货地址明细
+} elseif ($operation == 'detail') { // 查看收货地址明细
     $id = intval($_GP['id']);
     $row = mysqld_select("SELECT id, realname, mobile, province, city, area, address FROM " . table('shop_address') . " WHERE id = :id", array(
         ':id' => $id
     ));
     message($row, '', 'ajax');
-} elseif ($operation == 'remove') {//删除收货地址
+} elseif ($operation == 'remove') { // 删除收货地址
     $id = intval($_GP['id']);
     if (! empty($id)) {
-        $address = mysqld_select("select isdefault from " . table('shop_address') . " where id='{$id}'  and openid='" . $openid . "' limit 1 ");    
+        $address = mysqld_select("select isdefault from " . table('shop_address') . " where id='{$id}'  and openid='" . $openid . "' limit 1 ");
         if (! empty($address)) {
             // 修改成不直接删除，而设置deleted=1
             mysqld_update("shop_address", array(
@@ -96,21 +96,21 @@ if ($operation == 'post') {//新增收货地址
         "result" => 1,
         "maxid" => 0
     )));
-} else {//所有收货地址
+} else { // 所有收货地址
     $address = mysqld_selectall("SELECT * FROM " . table('shop_address') . " WHERE deleted=0 and openid = :openid", array(
         ':openid' => $openid
     ));
-    //如果是微信登录，则获取微信默认收货地址
+    // 如果是微信登录，则获取微信默认收货地址
     if (is_use_weixin()) {
         if (! empty($settings['weixin_autoaddress'])) {
-            if (empty($address) || count($address) == 0) {                
-                $signPackage = weixin_js_signPackage();                
+            if (empty($address) || count($address) == 0) {
+                $signPackage = weixin_js_signPackage();
                 $addressSignInfo = weixin_address_signInfo("http://" . $_SERVER[HTTP_HOST] . "" . $_SERVER['REQUEST_URI'], $signPackage);
-                if (! empty($addressSignInfo)) {                    
+                if (! empty($addressSignInfo)) {
                     $useWeixinAddr = true;
                 }
             }
         }
-    }    
+    }
     include themePage('address');
 }

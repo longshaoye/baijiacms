@@ -1,6 +1,9 @@
 <?php
-			
-			 mysqld_update('payment',array('enabled' => 0) , array('code' => 'bank'));
+mysqld_update('payment', array(
+    'enabled' => 0
+), array(
+    'code' => 'bank'
+));
 ?>
 
 

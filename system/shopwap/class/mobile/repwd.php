@@ -1,5 +1,5 @@
 <?php
-if (empty($cfg['regsiter_usesms'])) {  
+if (empty($cfg['regsiter_usesms'])) {
     message("未开启短信接口无法进行密码取回");
 }
 
@@ -19,7 +19,7 @@ if (checksubmit("submit")) {
         include themePage('repwd_newpwd');
         exit();
     }
-    if (! empty($_GP['fromsmspage'])) {        
+    if (! empty($_GP['fromsmspage'])) {
         if (empty($_GP['mobilecode'])) {
             message("请输入手机验证码。");
             exit();
@@ -28,7 +28,7 @@ if (checksubmit("submit")) {
             message("两次密码不相同！");
             exit();
         }
-        $vcode_check = system_sms_validate($_GP['mobile'], 'change_pwd', $_GP['mobilecode']);        
+        $vcode_check = system_sms_validate($_GP['mobile'], 'change_pwd', $_GP['mobilecode']);
         if ($vcode_check) {
             $pwd = md5($_GP['recheckpwd']);
             mysqld_update('member', array(
@@ -37,7 +37,7 @@ if (checksubmit("submit")) {
                 'openid' => $member['openid']
             ));
             message('密码修改成功！', mobile_url('login'), 'success');
-        } else {            
+        } else {
             message("验证码错误");
         }
     }

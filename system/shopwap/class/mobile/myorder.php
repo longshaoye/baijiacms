@@ -6,7 +6,7 @@ $op = $_GP['op'];
 $settings = globaSetting();
 $rebacktime = intval($settings['shop_postsale']);
 
-//取消订单
+// 取消订单
 if ($op == 'cancelsend') {
     $orderid = intval($_GP['orderid']);
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(
@@ -30,7 +30,7 @@ if ($op == 'cancelsend') {
         message('商家已发货无法修改订单');
     }
     message('该订单不可取消');
-} elseif ($op == 'returngood') {//退货
+} elseif ($op == 'returngood') { // 退货
     $orderid = intval($_GP['orderid']);
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(
         ':id' => $orderid,
@@ -71,7 +71,7 @@ if ($op == 'cancelsend') {
     }
     include themePage('order_detail_return');
     exit();
-}elseif ($op == 'resendgood') {//换货
+} elseif ($op == 'resendgood') { // 换货
     $orderid = intval($_GP['orderid']);
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(
         ':id' => $orderid,
@@ -111,7 +111,7 @@ if ($op == 'cancelsend') {
     }
     include themePage('order_detail_return');
     exit();
-}elseif ($op == 'returncomment') {//评论
+} elseif ($op == 'returncomment') { // 评论
     $orderid = intval($_GP['orderid']);
     $ogsid = intval($_GP['ogsid']);
     
@@ -131,7 +131,7 @@ if ($op == 'cancelsend') {
         message('商品不能空', refresh(), 'error');
     }
     if (checksubmit("submit")) {
-        $optionid = intval($_GP['optionid']);        
+        $optionid = intval($_GP['optionid']);
         $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id limit 1", array(
             ":id" => $optionid
         ));
@@ -139,7 +139,7 @@ if ($op == 'cancelsend') {
         if ($item['status'] != 3) {
             message('订单未完成不能评论', refresh(), 'error');
         }
-        if (empty($_GP['rsreson'])) {            
+        if (empty($_GP['rsreson'])) {
             message('请输入评论内容', refresh(), 'error');
         }
         $shop_order_goods = mysqld_select("select * from " . table("shop_order_goods") . " where id=:id limit 1", array(
@@ -170,7 +170,7 @@ if ($op == 'cancelsend') {
     }
     include themePage('order_detail_comment');
     exit();
-} elseif ($op == 'returnpay') {//退款
+} elseif ($op == 'returnpay') { // 退款
     $orderid = intval($_GP['orderid']);
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(
         ':id' => $orderid,
@@ -202,7 +202,7 @@ if ($op == 'cancelsend') {
     }
     include themePage('order_detail_return');
     exit();
-} elseif ($op == 'confirm') {//确认收货
+} elseif ($op == 'confirm') { // 确认收货
     $orderid = intval($_GP['orderid']);
     $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(
         ':id' => $orderid,
@@ -228,7 +228,8 @@ if ($op == 'cancelsend') {
     message('确认收货完成！', mobile_url('myorder', array(
         'status' => intval($_GP['fromstatus'])
     )), 'success');
-} else if ($op == 'detail') {//订单详情        
+} else 
+    if ($op == 'detail') { // 订单详情
         $orderid = intval($_GP['orderid']);
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '" . $openid . "' and id='{$orderid}' limit 1");
         if (empty($item)) {
@@ -272,7 +273,7 @@ if ($op == 'cancelsend') {
         
         include themePage('order_detail');
         exit();
-    } else {//订单列表
+    } else { // 订单列表
         $pindex = max(1, intval($_GP['page']));
         $psize = 20;
         

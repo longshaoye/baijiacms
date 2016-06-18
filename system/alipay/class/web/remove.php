@@ -1,9 +1,9 @@
 <?php
 defined('SYSTEM_IN') or exit('Access Denied');
-	
-			$ret = $this->menuDelete();
-		if(is_error($ret)) {
-			message($ret['message'], 'refresh');
-		} else {
-			message('ÒÑ¾­³É¹¦É¾³ý²Ëµ¥£¬ÇëÖØÐÂ´´½¨¡£', 'refresh');
-		}
+
+$ret = $this->menuDelete();
+if (is_error($ret)) {
+    message($ret['message'], 'refresh');
+} else {
+    message('ï¿½Ñ¾ï¿½ï¿½É¹ï¿½É¾ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½', 'refresh');
+}

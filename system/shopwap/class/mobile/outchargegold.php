@@ -7,9 +7,9 @@ if (empty($member['outgoldinfo'])) {
 }
 $op = $_GP['op'] ? $_GP['op'] : 'display';
 
-//提现
+// 提现
 if ($op == 'display') {
-    if (checksubmit('submit')) {        
+    if (checksubmit('submit')) {
         if (empty($_GP['charge']) || round($_GP['charge'], 2) <= 0) {
             message("请输入要提取的金额");
         }
@@ -22,7 +22,7 @@ if ($op == 'display') {
         if (! empty($gold_order['ordersn'])) {
             $ordersn = 'rg' . date('Ymd') . random(6, 1);
         }
-        //插入会员操作记录
+        // 插入会员操作记录
         member_gold($openid, $fee, 'usegold', '余额提取' . $fee . '元');
         mysqld_insert('gold_teller', array(
             'openid' => $openid,
@@ -43,7 +43,7 @@ if ($op == 'display') {
     include themePage('outchargegold');
     exit();
 }
-//提现记录
+// 提现记录
 if ($op == 'history') {
     $pindex = max(1, intval($_GP['page']));
     $psize = 20;

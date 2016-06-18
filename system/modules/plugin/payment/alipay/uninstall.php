@@ -1,6 +1,9 @@
 <?php
-			
-			 mysqld_update('payment',array('enabled' => 0) , array('code' => 'alipay'));
+mysqld_update('payment', array(
+    'enabled' => 0
+), array(
+    'code' => 'alipay'
+));
 ?>
 
 

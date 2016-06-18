@@ -1,48 +1,71 @@
-<?php defined('SYSTEM_IN') or exit('Access Denied');defined('LOCK_TO_UPDATE') or exit('Access Denied');
-$sql ="";
+<?php
+
+defined('SYSTEM_IN') or exit('Access Denied');
+defined('LOCK_TO_UPDATE') or exit('Access Denied');
+$sql = "";
 $weixin_rule = mysqld_select("SELECT * FROM " . table('rule') . " WHERE `modname`='weixin' and `moddo`='weixin' ");
-if(empty($weixin_rule['modname']))
-{
-	$sql =$sql."
+if (empty($weixin_rule['modname'])) {
+    $sql = $sql . "
 	delete from `baijiacms_rule` where `modname`='weixin' and `moddo`='weixin';
 insert into `baijiacms_rule` (`moddescription`,`modname`,`moddo`)value('微信设置','weixin','weixin');
 	";
-		$user_list = mysqld_selectall("SELECT * FROM " . table('user') );
-	foreach ($user_list as &$_tuser) {
-		mysqld_delete('user_rule',array('uid'=>$_tuser['id'],'modname'=>'weixin','moddo'=>'weixin'));
-		mysqld_insert('user_rule',array('uid'=>$_tuser['id'],'modname'=>'weixin','moddo'=>'weixin'));
-	}
+    $user_list = mysqld_selectall("SELECT * FROM " . table('user'));
+    foreach ($user_list as &$_tuser) {
+        mysqld_delete('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'weixin',
+            'moddo' => 'weixin'
+        ));
+        mysqld_insert('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'weixin',
+            'moddo' => 'weixin'
+        ));
+    }
 }
 $alipay_rule = mysqld_select("SELECT * FROM " . table('rule') . " WHERE `modname`='alipay' and `moddo`='alipay' ");
-if(empty($alipay_rule['modname']))
-{
-	$sql =$sql."
+if (empty($alipay_rule['modname'])) {
+    $sql = $sql . "
 	delete from `baijiacms_rule` where `modname`='alipay' and `moddo`='alipay';
 	insert into `baijiacms_rule` (`moddescription`,`modname`,`moddo`)value('支付宝服务窗设置', 'alipay', 'alipay');
 	";
-		$user_list = mysqld_selectall("SELECT * FROM " . table('user') );
-	foreach ($user_list as &$_tuser) {
-		mysqld_delete('user_rule',array('uid'=>$_tuser['id'],'modname'=>'alipay','moddo'=>'alipay'));
-		mysqld_insert('user_rule',array('uid'=>$_tuser['id'],'modname'=>'alipay','moddo'=>'alipay'));
-	}
+    $user_list = mysqld_selectall("SELECT * FROM " . table('user'));
+    foreach ($user_list as &$_tuser) {
+        mysqld_delete('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'alipay',
+            'moddo' => 'alipay'
+        ));
+        mysqld_insert('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'alipay',
+            'moddo' => 'alipay'
+        ));
+    }
 }
 
-
 $bonus_rule = mysqld_select("SELECT * FROM " . table('rule') . " WHERE `modname`='bonus' and `moddo`='bonus' ");
-if(empty($bonus_rule['modname']))
-{
-	$sql =$sql."
+if (empty($bonus_rule['modname'])) {
+    $sql = $sql . "
 	delete from `baijiacms_rule` where `modname`='bonus' and `moddo`='bonus';
 insert into `baijiacms_rule` (`moddescription`,`modname`,`moddo`)value('促销管理','bonus','bonus');
 	";
-	$user_list = mysqld_selectall("SELECT * FROM " . table('user') );
-	foreach ($user_list as &$_tuser) {
-		mysqld_delete('user_rule',array('uid'=>$_tuser['id'],'modname'=>'bonus','moddo'=>'bonus'));
-		mysqld_insert('user_rule',array('uid'=>$_tuser['id'],'modname'=>'bonus','moddo'=>'bonus'));
-	}
+    $user_list = mysqld_selectall("SELECT * FROM " . table('user'));
+    foreach ($user_list as &$_tuser) {
+        mysqld_delete('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'bonus',
+            'moddo' => 'bonus'
+        ));
+        mysqld_insert('user_rule', array(
+            'uid' => $_tuser['id'],
+            'modname' => 'bonus',
+            'moddo' => 'bonus'
+        ));
+    }
 }
 
-$sql = $sql."
+$sql = $sql . "
 update `baijiacms_shop_order` set paytype=1 where paytypecode='gold';
 update `baijiacms_shop_order` set paytype=3 where paytypecode='delivery';
 update `baijiacms_shop_order` set paytype=2 where paytypecode='weixin';
@@ -302,116 +325,115 @@ CREATE TABLE IF NOT EXISTS `baijiacms_dispatch` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ";
-if(!mysqld_fieldexists('user', 'is_admin')) {
-	$sql=$sql."delete from  ".table('user_rule')." ;";
-	$sql=$sql."ALTER TABLE ".table('user')." ADD COLUMN `is_admin` int(1) NOT NULL DEFAULT '0' COMMENT '1管理员0用户';";
-	$sql=$sql."update ".table('user')." set `is_admin`=1;";
+if (! mysqld_fieldexists('user', 'is_admin')) {
+    $sql = $sql . "delete from  " . table('user_rule') . " ;";
+    $sql = $sql . "ALTER TABLE " . table('user') . " ADD COLUMN `is_admin` int(1) NOT NULL DEFAULT '0' COMMENT '1管理员0用户';";
+    $sql = $sql . "update " . table('user') . " set `is_admin`=1;";
 }
-if(!mysqld_fieldexists('user_rule', 'rule_name')) {
-	$sql=$sql."delete from  ".table('user_rule')." ;";
-	$sql=$sql."ALTER TABLE ".table('user_rule')." ADD COLUMN `rule_name` varchar(100) DEFAULT NULL COMMENT '1管理员0用户';";
+if (! mysqld_fieldexists('user_rule', 'rule_name')) {
+    $sql = $sql . "delete from  " . table('user_rule') . " ;";
+    $sql = $sql . "ALTER TABLE " . table('user_rule') . " ADD COLUMN `rule_name` varchar(100) DEFAULT NULL COMMENT '1管理员0用户';";
 }
-if(!mysqld_fieldexists('user', 'groupName')) {
-	$sql=$sql."ALTER TABLE ".table('user')." ADD COLUMN  `groupName` varchar(100) NOT NULL DEFAULT '' COMMENT '用户组名称';";
+if (! mysqld_fieldexists('user', 'groupName')) {
+    $sql = $sql . "ALTER TABLE " . table('user') . " ADD COLUMN  `groupName` varchar(100) NOT NULL DEFAULT '' COMMENT '用户组名称';";
 }
-if(!mysqld_fieldexists('user', 'groupid')) {
-	$sql=$sql."ALTER TABLE ".table('user')." ADD COLUMN `groupid` int(10) NOT NULL DEFAULT '0' COMMENT '用户组id';";
+if (! mysqld_fieldexists('user', 'groupid')) {
+    $sql = $sql . "ALTER TABLE " . table('user') . " ADD COLUMN `groupid` int(10) NOT NULL DEFAULT '0' COMMENT '用户组id';";
 }
-if(!mysqld_fieldexists('weixin_wxfans', 'longitude')) {
-	$sql=$sql."ALTER TABLE ".table('weixin_wxfans')." ADD COLUMN `longitude` decimal(10,2) DEFAULT '0' COMMENT '地理位置经度';";
+if (! mysqld_fieldexists('weixin_wxfans', 'longitude')) {
+    $sql = $sql . "ALTER TABLE " . table('weixin_wxfans') . " ADD COLUMN `longitude` decimal(10,2) DEFAULT '0' COMMENT '地理位置经度';";
 }
-if(!mysqld_fieldexists('weixin_wxfans', 'latitude')) {
-	$sql=$sql."ALTER TABLE ".table('weixin_wxfans')." ADD COLUMN `latitude` decimal(10,2) DEFAULT '0' COMMENT '地理位置纬度';";
+if (! mysqld_fieldexists('weixin_wxfans', 'latitude')) {
+    $sql = $sql . "ALTER TABLE " . table('weixin_wxfans') . " ADD COLUMN `latitude` decimal(10,2) DEFAULT '0' COMMENT '地理位置纬度';";
 }
-if(!mysqld_fieldexists('weixin_wxfans', 'precision')) {
-	$sql=$sql."ALTER TABLE ".table('weixin_wxfans')." ADD COLUMN `precision` decimal(10,2) DEFAULT '0' COMMENT '地理位置精度';";
+if (! mysqld_fieldexists('weixin_wxfans', 'precision')) {
+    $sql = $sql . "ALTER TABLE " . table('weixin_wxfans') . " ADD COLUMN `precision` decimal(10,2) DEFAULT '0' COMMENT '地理位置精度';";
 }
-if(!mysqld_fieldexists('weixin_rule', 'addonsrule')) {
-	$sql=$sql."ALTER TABLE ".table('weixin_rule')." ADD COLUMN `addonsrule` int(1) NOT NULL  DEFAULT '0' COMMENT '0常规，1模块规则';";
+if (! mysqld_fieldexists('weixin_rule', 'addonsrule')) {
+    $sql = $sql . "ALTER TABLE " . table('weixin_rule') . " ADD COLUMN `addonsrule` int(1) NOT NULL  DEFAULT '0' COMMENT '0常规，1模块规则';";
 }
-if(!mysqld_fieldexists('weixin_rule', 'addonsModule')) {
-	$sql=$sql."ALTER TABLE ".table('weixin_rule')." ADD COLUMN `addonsModule` varchar(50) DEFAULT '' COMMENT '所属模块';";
-}
-
-if(!mysqld_fieldexists('modules', 'isdisable')) {
-	$sql=$sql."ALTER TABLE ".table('modules')." ADD COLUMN `isdisable` int(1) DEFAULT '0' COMMENT '模块是否禁用';";
-}
-if(!mysqld_fieldexists('member', 'avatar')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `avatar` varchar(200) DEFAULT '' COMMENT '用户头像';";
-}
-if(!mysqld_fieldexists('member', 'weixin_openid')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid';";
-}
-if(!mysqld_fieldexists('member', 'alipay_openid')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `alipay_openid` varchar(50) DEFAULT '' COMMENT '阿里openid';";
-}
-if(!mysqld_fieldexists('member', 'experience')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `experience` int(11) DEFAULT '0' COMMENT '账户经验值';";
-	$sql = $sql."update ".table('member')." set experience=credit;";
-}
-if(!mysqld_fieldexists('shop_category', 'thumbadv')) {
-	$sql=$sql."ALTER TABLE ".table('shop_category')." ADD COLUMN `thumbadv` varchar(255) NOT NULL COMMENT '分类广告图片';";
-}
-if(!mysqld_fieldexists('shop_category', 'thumbadvurl')) {
-	$sql=$sql."ALTER TABLE ".table('shop_category')." ADD COLUMN `thumbadvurl` varchar(255) NOT NULL COMMENT '分类广告url';";
-}
-if(!mysqld_fieldexists('shop_goods', 'isfirst')) {
-	$sql=$sql."ALTER TABLE ".table('shop_goods')." ADD COLUMN `isfirst` int(1) DEFAULT '0' COMMENT '首发';";
+if (! mysqld_fieldexists('weixin_rule', 'addonsModule')) {
+    $sql = $sql . "ALTER TABLE " . table('weixin_rule') . " ADD COLUMN `addonsModule` varchar(50) DEFAULT '' COMMENT '所属模块';";
 }
 
-if(!mysqld_fieldexists('shop_goods', 'isjingping')) {
-	$sql=$sql."ALTER TABLE ".table('shop_goods')." ADD COLUMN `isjingping` int(1) DEFAULT '0' COMMENT '精品';";
+if (! mysqld_fieldexists('modules', 'isdisable')) {
+    $sql = $sql . "ALTER TABLE " . table('modules') . " ADD COLUMN `isdisable` int(1) DEFAULT '0' COMMENT '模块是否禁用';";
 }
-if(!mysqld_fieldexists('shop_order', 'paytime')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `paytime` int(10) DEFAULT '0' COMMENT '支付时间';";
+if (! mysqld_fieldexists('member', 'avatar')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `avatar` varchar(200) DEFAULT '' COMMENT '用户头像';";
 }
-if(!mysqld_fieldexists('gold_order', 'paytime')) {
-	$sql=$sql."ALTER TABLE ".table('gold_order')." ADD COLUMN `paytime` int(10) DEFAULT '0' COMMENT '支付时间';";
+if (! mysqld_fieldexists('member', 'weixin_openid')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid';";
 }
-if(!mysqld_fieldexists('shop_order', 'hasbonus')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `hasbonus` int(1) DEFAULT '0' COMMENT '是否使用优惠券';";
+if (! mysqld_fieldexists('member', 'alipay_openid')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `alipay_openid` varchar(50) DEFAULT '' COMMENT '阿里openid';";
 }
-if(!mysqld_fieldexists('shop_order', 'bonusprice')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `bonusprice` decimal(10,2) DEFAULT '0.00' COMMENT '优惠券抵消金额';";
+if (! mysqld_fieldexists('member', 'experience')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `experience` int(11) DEFAULT '0' COMMENT '账户经验值';";
+    $sql = $sql . "update " . table('member') . " set experience=credit;";
 }
-if(!mysqld_fieldexists('member_paylog', 'account_fee')) {
-	$sql=$sql."ALTER TABLE ".table('member_paylog')." ADD COLUMN `account_fee` decimal(10,2) NOT NULL COMMENT '账户剩余积分或余额';";
+if (! mysqld_fieldexists('shop_category', 'thumbadv')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_category') . " ADD COLUMN `thumbadv` varchar(255) NOT NULL COMMENT '分类广告图片';";
 }
-
-if(!mysqld_fieldexists('member_paylog', 'account_fee')) {
-	$sql=$sql."ALTER TABLE ".table('member_paylog')." ADD COLUMN `account_fee` decimal(10,2) NOT NULL COMMENT '账户剩余积分或余额';";
+if (! mysqld_fieldexists('shop_category', 'thumbadvurl')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_category') . " ADD COLUMN `thumbadvurl` varchar(255) NOT NULL COMMENT '分类广告url';";
 }
-
-if(!mysqld_fieldexists('shop_order_goods', 'iscomment')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order_goods')." ADD COLUMN `iscomment` int(1) DEFAULT '0' COMMENT '是否已评论0否1是';";
-}
-
-if(!mysqld_fieldexists('member', 'outgold')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `outgold` double NOT NULL DEFAULT '0' COMMENT '已提取余额';";
-}
-if(!mysqld_fieldexists('member', 'outgoldinfo')) {
-	$sql=$sql."ALTER TABLE ".table('member')." ADD COLUMN `outgoldinfo` varchar(1000) DEFAULT '0' COMMENT '提款信息 序列化';";
-}
-if(!mysqld_fieldexists('shop_order', 'isverify')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `isverify` int(1) DEFAULT '0' COMMENT '是否是核销订单0否1是';";
-}
-if(!mysqld_fieldexists('shop_order', 'verify_shopvname')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `verify_shopvname` varchar(50) DEFAULT '' COMMENT '核销门店名称';";
-}
-if(!mysqld_fieldexists('shop_order', 'verify_shopvid')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `verify_shopvid` int(10) DEFAULT '0' COMMENT '核销门店id';";
-}
-if(!mysqld_fieldexists('shop_order', 'verify_openid')) {
-	$sql=$sql."ALTER TABLE ".table('shop_order')." ADD COLUMN `verify_openid` varchar(50) DEFAULT '' COMMENT '核销员openid';";
-}
-if(!mysqld_fieldexists('shop_goods', 'isverify')) {
-	$sql=$sql."ALTER TABLE ".table('shop_goods')." ADD COLUMN `isverify` int(1) DEFAULT '0' COMMENT '是否是核销产品0否1是';";
+if (! mysqld_fieldexists('shop_goods', 'isfirst')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_goods') . " ADD COLUMN `isfirst` int(1) DEFAULT '0' COMMENT '首发';";
 }
 
-if(true)
-{
-	$sql=$sql."delete from ".table('system_rule').";";
-	$sql=$sql."
+if (! mysqld_fieldexists('shop_goods', 'isjingping')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_goods') . " ADD COLUMN `isjingping` int(1) DEFAULT '0' COMMENT '精品';";
+}
+if (! mysqld_fieldexists('shop_order', 'paytime')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `paytime` int(10) DEFAULT '0' COMMENT '支付时间';";
+}
+if (! mysqld_fieldexists('gold_order', 'paytime')) {
+    $sql = $sql . "ALTER TABLE " . table('gold_order') . " ADD COLUMN `paytime` int(10) DEFAULT '0' COMMENT '支付时间';";
+}
+if (! mysqld_fieldexists('shop_order', 'hasbonus')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `hasbonus` int(1) DEFAULT '0' COMMENT '是否使用优惠券';";
+}
+if (! mysqld_fieldexists('shop_order', 'bonusprice')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `bonusprice` decimal(10,2) DEFAULT '0.00' COMMENT '优惠券抵消金额';";
+}
+if (! mysqld_fieldexists('member_paylog', 'account_fee')) {
+    $sql = $sql . "ALTER TABLE " . table('member_paylog') . " ADD COLUMN `account_fee` decimal(10,2) NOT NULL COMMENT '账户剩余积分或余额';";
+}
+
+if (! mysqld_fieldexists('member_paylog', 'account_fee')) {
+    $sql = $sql . "ALTER TABLE " . table('member_paylog') . " ADD COLUMN `account_fee` decimal(10,2) NOT NULL COMMENT '账户剩余积分或余额';";
+}
+
+if (! mysqld_fieldexists('shop_order_goods', 'iscomment')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order_goods') . " ADD COLUMN `iscomment` int(1) DEFAULT '0' COMMENT '是否已评论0否1是';";
+}
+
+if (! mysqld_fieldexists('member', 'outgold')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `outgold` double NOT NULL DEFAULT '0' COMMENT '已提取余额';";
+}
+if (! mysqld_fieldexists('member', 'outgoldinfo')) {
+    $sql = $sql . "ALTER TABLE " . table('member') . " ADD COLUMN `outgoldinfo` varchar(1000) DEFAULT '0' COMMENT '提款信息 序列化';";
+}
+if (! mysqld_fieldexists('shop_order', 'isverify')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `isverify` int(1) DEFAULT '0' COMMENT '是否是核销订单0否1是';";
+}
+if (! mysqld_fieldexists('shop_order', 'verify_shopvname')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `verify_shopvname` varchar(50) DEFAULT '' COMMENT '核销门店名称';";
+}
+if (! mysqld_fieldexists('shop_order', 'verify_shopvid')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `verify_shopvid` int(10) DEFAULT '0' COMMENT '核销门店id';";
+}
+if (! mysqld_fieldexists('shop_order', 'verify_openid')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_order') . " ADD COLUMN `verify_openid` varchar(50) DEFAULT '' COMMENT '核销员openid';";
+}
+if (! mysqld_fieldexists('shop_goods', 'isverify')) {
+    $sql = $sql . "ALTER TABLE " . table('shop_goods') . " ADD COLUMN `isverify` int(1) DEFAULT '0' COMMENT '是否是核销产品0否1是';";
+}
+
+if (true) {
+    $sql = $sql . "delete from " . table('system_rule') . ";";
+    $sql = $sql . "
 	
 	
 	 
@@ -442,14 +464,12 @@ INSERT INTO `baijiacms_system_rule` (`modname`, `moddo`,`rule_name`) VALUES ('mo
 INSERT INTO `baijiacms_system_rule` (`modname`, `moddo`,`rule_name`) VALUES ('weixin', 'ALL', '微信设置');
 INSERT INTO `baijiacms_system_rule` (`modname`, `moddo`,`rule_name`) VALUES ('alipay', 'ALL', '支付宝服务窗');
 INSERT INTO `baijiacms_system_rule` (`modname`, `moddo`,`rule_name`)  VALUES ('user', 'ALL', '用户管理'); ";
-	
 }
 
-mysqld_batch($sql); 
+mysqld_batch($sql);
 
-if(CUSTOM_VERSION==true&&is_file(CUSTOM_ROOT.'/modules/updatesql.php'))
-{
-	require CUSTOM_ROOT.'/modules/updatesql.php';
+if (CUSTOM_VERSION == true && is_file(CUSTOM_ROOT . '/modules/updatesql.php')) {
+    require CUSTOM_ROOT . '/modules/updatesql.php';
 }
 
 clear_theme_cache();

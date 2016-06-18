@@ -3,6 +3,7 @@ defined('SYSTEM_IN') or exit('Access Denied');
 
 abstract class BjSystemModule
 {
+
     public function __mobile($f_name)
     {
         global $_CMS, $_GP;

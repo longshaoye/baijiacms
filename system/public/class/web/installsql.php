@@ -1005,26 +1005,21 @@ CREATE TABLE `baijiacms_weixin_wxfans` (
 ";
 
 mysqld_batch($sql);
-if(CUSTOM_VERSION==true&&is_file(CUSTOM_ROOT.'/public/class/web/installsql.php'))
-{
-	require CUSTOM_ROOT.'/public/class/web/installsql.php';
+if (CUSTOM_VERSION == true && is_file(CUSTOM_ROOT . '/public/class/web/installsql.php')) {
+    require CUSTOM_ROOT . '/public/class/web/installsql.php';
 }
 define('LOCK_TO_UPDATE', true);
-require WEB_ROOT.'/system/modules/updatesql.php';
+require WEB_ROOT . '/system/modules/updatesql.php';
 define('LOCK_TO_ADDONS_INSTALL', true);
-if(is_file(ADDONS_ROOT.'addon6/installsql.php'))
-{
-require ADDONS_ROOT.'addon6/installsql.php';
+if (is_file(ADDONS_ROOT . 'addon6/installsql.php')) {
+    require ADDONS_ROOT . 'addon6/installsql.php';
 }
-if(is_file(ADDONS_ROOT.'addon7/installsql.php'))
-{
-require ADDONS_ROOT.'addon7/installsql.php';
+if (is_file(ADDONS_ROOT . 'addon7/installsql.php')) {
+    require ADDONS_ROOT . 'addon7/installsql.php';
 }
-if(is_file(ADDONS_ROOT.'addon8/installsql.php'))
-{
-require ADDONS_ROOT.'addon8/installsql.php';
+if (is_file(ADDONS_ROOT . 'addon8/installsql.php')) {
+    require ADDONS_ROOT . 'addon8/installsql.php';
 }
-if(is_file(ADDONS_ROOT.'addon9/installsql.php'))
-{
-require ADDONS_ROOT.'addon9/installsql.php';
+if (is_file(ADDONS_ROOT . 'addon9/installsql.php')) {
+    require ADDONS_ROOT . 'addon9/installsql.php';
 }
